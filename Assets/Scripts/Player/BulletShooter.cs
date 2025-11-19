@@ -35,18 +35,25 @@ public class BulletShooter : MonoBehaviour
     {
         if (Time.time >= shootRpm)
         {
-            shootRpm = Time.time + 1f;
+            shootRpm = Time.time + 0.3f;
+            bool activeBullet = false;
             foreach (GameObject obj in bulletShooters)
             {
                 if (!obj.activeInHierarchy)
                 {
+                    activeBullet=true;
                     obj.SetActive(true);
+                    obj.transform.localPosition = new Vector3(0, 0, 0);
                     break;
                 }
-                CreatBullet();
+            }
+            if (!activeBullet)
+            {
+                GameObject obj = Instantiate(mapPrefabs, transform);
+                obj.SetActive(true);
+                bulletShooters.Add(obj);
             }
         }
-
     }
     // TODO : ObjectPool을 이용해 총알 생성을 구현해봅시다.
 }
